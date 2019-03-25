@@ -2,8 +2,15 @@
   font-family: sans-serif;
   text-align: center;
 }
-
+html {
+  background-color: yellow;
+}
 button {
   background: red;
   color: blue;
+}
+
+.winnerCaption {
+  border: solid;
+  height: 120px;
 }
