@@ -43,7 +43,7 @@ class Player extends Component {
       <div>
         <input
           type="text"
-          placeholder="player1 name"
+          placeholder={this.props.placeholder}
           value={this.state.inputPlayer1}
           onChange={this.updateInputPlayer1Value}
         />
@@ -53,18 +53,7 @@ class Player extends Component {
           }
           content="Player 1"
         />
-        <input
-          type="text"
-          placeholder="player2 name"
-          value={this.state.inputPlayer2}
-          onChange={this.updateInputPlayer2Value}
-        />
-        <Button
-          onClick={() =>
-            this.handleClick("player2Name", this.state.inputPlayer2)
-          }
-          content="Player 2"
-        />
+
         <div>{this.state.player1Name}</div>
         <div>{this.state.player2Name}</div>
         <div class="signePlayer1">
@@ -73,10 +62,6 @@ class Player extends Component {
         <Checkbox isCheckedPlayer1={this.saveSelectedSignPlayer1} />
         <Score />
         {this.state.scorePlayer1}
-        <div class="signePlayer2">choose your sign{this.state.player2Name}</div>
-        <Checkbox isCheckedPlayer2={this.saveSelectedSignPlayer2} />
-        <Score />
-        {this.state.scorePlayer2}
       </div>
     );
   }
