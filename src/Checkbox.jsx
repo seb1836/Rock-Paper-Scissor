@@ -1,21 +1,20 @@
-import React, { Component } from "react";
+import React from "react";
 
-class Checkbox extends Component {
-  render() {
-    return (
+const Checkbox = props => {
+  return (
+    <div>
       <div>
-        <div>
-          <input type="checkbox" value="rock" /> rock
-        </div>
-        <div>
-          <input type="checkbox" value="paper" /> paper
-        </div>
-        <div>
-          <input type="checkbox" value="scissor" /> scissor
-        </div>
+        <input type="checkbox" value="rock" onClick={props.isCheckedPlayer1} />{" "}
+        rock
       </div>
-    );
-  }
-}
+      <div>
+        <input type="checkbox" value="paper" /> paper
+      </div>
+      <div>
+        <input type="checkbox" value="scissor" /> scissor
+      </div>
+    </div>
+  );
+};
 
 export default Checkbox;

@@ -2,18 +2,15 @@ import React, { Component } from "react";
 import ReactDOM from "react-dom";
 import Button from "./Button";
 import Checkbox from "./Checkbox";
+import Player from "./Player";
 import "./styles.css";
 import Score from "./Score";
 class App extends Component {
   state = {
-    player1Name: "",
-    player2Name: "",
-    inputPlayer1: "",
-    inputPlayer2: "",
-    scorePlayer1: "0",
-    scorePlayer2: "0",
-    player1Signe: "",
-    player2Signe: ""
+    playerName: "",
+    inputPlayer: "",
+    scorePlayer: "0",
+    playerSign: ""
   };
   handleClick = (field, value) => {
     this.setState({ [field]: value });
@@ -31,6 +28,16 @@ class App extends Component {
       inputPlayer2: evt.target.value
     });
     console.log("2");
+  };
+  saveSelectedSignPlayer1 = evt => {
+    this.setState(
+      {
+        player1Sign: evt.target.value
+      },
+      () => {
+        console.log(evt.class);
+      }
+    );
   };
 
   render() {
@@ -63,15 +70,13 @@ class App extends Component {
         <div>{this.state.player1Name}</div>
         <div>{this.state.player2Name}</div>
         <div class="signePlayer1">
-          choose your signe {this.state.player1Name}
+          choose your sign {this.state.player1Name}
         </div>
-        <Checkbox />
+        <Checkbox isCheckedPlayer1={this.saveSelectedSignPlayer1} />
         <Score />
         {this.state.scorePlayer1}
-        <div class="signePlayer2">
-          choose your signe {this.state.player2Name}
-        </div>
-        <Checkbox />
+        <div class="signePlayer2">choose your sign{this.state.player2Name}</div>
+        <Checkbox isCheckedPlayer2={this.saveSelectedSignPlayer2} />
         <Score />
         {this.state.scorePlayer2}
         <div class="winnerCaption">Winner</div>
