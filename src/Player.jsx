@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import Button from "./Button";
 import Checkbox from "./Checkbox";
 import Score from "./Score";
+import Input from "./Input";
 
 class Player extends Component {
   state = {
@@ -10,38 +10,30 @@ class Player extends Component {
     scorePlayer: "0",
     playerSign: ""
   };
-  handleClick = (field, value) => {
-    this.setState({ [field]: value });
-  };
 
-  updateInputPlayer1Value = evt => {
-    this.setState({
-      inputPlayer1: evt.target.value
-    });
-    console.log("e");
-  };
-
-  updateInputPlayer2Value = evt => {
-    this.setState({
-      inputPlayer2: evt.target.value
-    });
-    console.log("2");
-  };
-  saveSelectedSignPlayer1 = evt => {
+  saveSelectedSignPlayer = evt => {
     this.setState(
       {
-        player1Sign: evt.target.value
+        playerSign: evt.target.value
       },
       () => {
-        console.log(evt.class);
+        console.log(this.state.playerSign);
       }
     );
+  };
+
+  playerNameHandler = evt => {
+    this.setState({ playerName: evt.target.value });
   };
 
   render() {
     return (
       <div>
-        <input
+        <Input
+          placeholder={this.props.placeholder}
+          playerNameHandler={this.playerNameHandler}
+        />
+        {/*<input
           type="text"
           placeholder={this.props.placeholder}
           value={this.state.inputPlayer1}
@@ -52,16 +44,14 @@ class Player extends Component {
             this.handleClick("player1Name", this.state.inputPlayer1)
           }
           content="Player 1"
-        />
+        />*/}
 
-        <div>{this.state.player1Name}</div>
-        <div>{this.state.player2Name}</div>
-        <div class="signePlayer1">
-          choose your sign {this.state.player1Name}
-        </div>
-        <Checkbox isCheckedPlayer1={this.saveSelectedSignPlayer1} />
+        <div>{this.state.playerName}</div>
+
+        <div class="signePlayer1">choose your sign {this.state.playerName}</div>
+        <Checkbox isCheckedPlayer1={this.saveSelectedSignPlayer} />
         <Score />
-        {this.state.scorePlayer1}
+        {this.state.scorePlayer}
       </div>
     );
   }
