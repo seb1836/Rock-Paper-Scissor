@@ -6,9 +6,9 @@ import Input from "./Input";
 class Player extends Component {
   state = {
     playerName: "",
-    inputPlayer: "",
     scorePlayer: "0",
-    playerSign: ""
+    playerSign: "",
+    isPlayerNameSaved: false
   };
 
   saveSelectedSignPlayer = evt => {
@@ -24,6 +24,15 @@ class Player extends Component {
 
   playerNameHandler = evt => {
     this.setState({ playerName: evt.target.value });
+    console.log(this.state.playerName);
+  };
+
+  hidingInputComponent = () => {
+    if (!this.state.isPlayerNameSaved) {
+      this.setState({ isPlayerNameSaved: true });
+
+      return <Input placeholder={this.props.placeholder} />;
+    }
   };
 
   render() {
@@ -31,24 +40,16 @@ class Player extends Component {
       <div>
         <Input
           placeholder={this.props.placeholder}
+          playerName={this.state.playerName}
           playerNameHandler={this.playerNameHandler}
+          hiding={this.hidingInputComponent}
+          isPlayerNameSaved={this.state.isPlayerNameSaved}
         />
-        {/*<input
-          type="text"
-          placeholder={this.props.placeholder}
-          value={this.state.inputPlayer1}
-          onChange={this.updateInputPlayer1Value}
-        />
-        <Button
-          onClick={() =>
-            this.handleClick("player1Name", this.state.inputPlayer1)
-          }
-          content="Player 1"
-        />*/}
+        {this.state.isPlayerNameSaved ? <div>{this.state.playerName}</div> : ""}
 
-        <div>{this.state.playerName}</div>
-
-        <div class="signePlayer1">choose your sign {this.state.playerName}</div>
+        <div className="signePlayer1">
+          choose your sign {this.state.playerName}
+        </div>
         <Checkbox isCheckedPlayer1={this.saveSelectedSignPlayer} />
         <Score />
         {this.state.scorePlayer}

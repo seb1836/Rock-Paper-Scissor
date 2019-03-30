@@ -2,9 +2,7 @@ import React, { Component } from "react";
 import Button from "./Button";
 
 class Input extends Component {
-  state = {
-    inputPlayer: ""
-  };
+  state = {};
 
   updateInputPlayerValue = evt => {
     this.setState({
@@ -14,20 +12,20 @@ class Input extends Component {
   };
 
   render() {
-    return (
-      <div>
-        <input
-          type="text"
-          placeholder={this.props.placeholder}
-          value={this.state.playerName}
-          onChange={this.props.playerNameHandler}
-        />
-        <Button
-          onClick={() => this.props.playerNameHandler}
-          content="Player 1"
-        />
-      </div>
-    );
+    if (this.props.isPlayerNameSaved === false) {
+      return (
+        <div>
+          <input
+            type="text"
+            placeholder={this.props.placeholder}
+            onChange={this.props.playerNameHandler}
+          />
+          <Button onClick={this.props.hiding} content="Player 1" />
+        </div>
+      );
+    } else {
+      return null;
+    }
   }
 }
 
