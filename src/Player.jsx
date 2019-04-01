@@ -8,7 +8,8 @@ class Player extends Component {
     playerName: "",
     scorePlayer: "0",
     playerSign: "",
-    isPlayerNameSaved: false
+    isPlayerNameSaved: false,
+    isSignSaved: false
   };
 
   saveSelectedSignPlayer = evt => {
@@ -45,12 +46,26 @@ class Player extends Component {
           hiding={this.hidingInputComponent}
           isPlayerNameSaved={this.state.isPlayerNameSaved}
         />
-        {this.state.isPlayerNameSaved ? <div>{this.state.playerName}</div> : ""}
-
-        <div className="signePlayer1">
-          choose your sign {this.state.playerName}
-        </div>
-        <Checkbox isCheckedPlayer1={this.saveSelectedSignPlayer} />
+        {this.state.isPlayerNameSaved ? (
+          <div>
+            {this.state.playerName}
+            <div className="signePlayer1">
+              choose your sign {this.state.playerName}
+            </div>
+          </div>
+        ) : (
+          <div className="signePlayer1">choose your sign</div>
+        )}
+        {this.state.isSignSaved ? (
+          <div>`${this.state.playerName} just picked his sign`</div>
+        ) : (
+          <div>
+            <Checkbox
+              saveSelectedSign={this.saveSelectedSignPlayer}
+              isSignChecked={this.state.isSignSaved}
+            />
+          </div>
+        )}
         <Score />
         {this.state.scorePlayer}
       </div>
