@@ -3,6 +3,8 @@ import Checkbox from "./Checkbox";
 import Score from "./Score";
 import Input from "./Input";
 
+const options = ["rock","paper","scissor"];
+
 class Player extends Component {
   state = {
     playerName: "",
@@ -35,6 +37,17 @@ class Player extends Component {
       return <Input placeholder={this.props.placeholder} />;
     }
   };
+  renderInput(placeholder) {
+    return this.isNameSaved()? null :(
+      <Input
+      placeholder={placeholder}
+      onClick={this.saveName}
+      onChange={this.onNameChange}
+      value={this.state.name}
+      buttonContent="Save"
+
+    )
+  }
 
   render() {
     return (
