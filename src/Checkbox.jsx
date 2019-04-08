@@ -1,36 +1,25 @@
-import React from "react";
+import React, { Component } from "react";
 
-const Checkbox = props => (
-  <div>
-    {props.isSignChecked ? null : (
+class Checkbox extends Component {
+  onClickHandler = () => {
+    const { onClick, label } = this.props;
+    onClick(label);
+  };
+
+  render() {
+    const { label } = this.props;
+    return (
       <div>
-        <div>
-          <input
-            type="checkbox"
-            value="rock"
-            onClick={props.saveSelectedSign}
-          />{" "}
-          rock
-        </div>
-        <div>
-          <input
-            type="checkbox"
-            value="paper"
-            onClick={props.saveSelectedSign}
-          />{" "}
-          paper
-        </div>
-        <div>
-          <input
-            type="checkbox"
-            value="scissor"
-            onClick={props.saveSelectedSign}
-          />{" "}
-          scissor
-        </div>
+        <input
+          id={label}
+          type="checkbox"
+          name="choice"
+          onClick={this.onClickHandler}
+        />
+        <label htmlFor={label}>{label}</label>
       </div>
-    )}
-  </div>
-);
+    );
+  }
+}
 
 export default Checkbox;

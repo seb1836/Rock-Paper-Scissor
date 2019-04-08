@@ -1,9 +1,9 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import Checkbox from "./Checkbox";
 import Score from "./Score";
 import Input from "./Input";
 
-const options = ["rock","paper","scissor"];
+const options = ["rock", "paper", "scissor"];
 
 class Player extends Component {
   state = {
@@ -14,74 +14,74 @@ class Player extends Component {
     isSignSaved: false
   };
 
-  saveSelectedSignPlayer = evt => {
-    this.setState(
-      {
-        playerSign: evt.target.value
-      },
-      () => {
-        console.log(this.state.playerSign);
-      }
-    );
+  saveName = () => {
+    this.setState({ isPlayerNameSaved: true });
   };
 
-  playerNameHandler = evt => {
-    this.setState({ playerName: evt.target.value });
-    console.log(this.state.playerName);
+  isNameSaved = () => this.state.isPlayerNameSaved;
+
+  saveSelectedSignPlayer = label => {
+    console.log(label);
+    this.setState({
+      playerSign: label,
+      isSignSaved: true
+    });
+  };
+  onNameChange = e => {
+    this.setState({ playerName: e.target.value });
   };
 
-  hidingInputComponent = () => {
+  /*hidingInputComponent = () => {
     if (!this.state.isPlayerNameSaved) {
       this.setState({ isPlayerNameSaved: true });
 
       return <Input placeholder={this.props.placeholder} />;
     }
-  };
-  renderInput(placeholder) {
-    return this.isNameSaved()? null :(
-      <Input
-      placeholder={placeholder}
-      onClick={this.saveName}
-      onChange={this.onNameChange}
-      value={this.state.name}
-      buttonContent="Save"
+  };*/
 
-    )
+  createCheckboxes() {
+    return options.map(option => (
+      <Checkbox
+        key={option}
+        label={option}
+        onClick={this.saveSelectedSignPlayer}
+      />
+    ));
+  }
+  renderInput() {
+    return this.isNameSaved() ? null : (
+      <Input
+        placeholder={this.props.placeholder}
+        onClick={this.saveName}
+        onChange={this.onNameChange}
+        value={this.state.playerName}
+        buttonContent="Save"
+      />
+    );
+  }
+  renderName() {
+    return this.isNameSaved() ? this.state.playerName : null;
+  }
+
+  renderCheckboxes() {
+    return this.state.isSignSaved ? this.createCheckboxes() : null;
+  }
+
+  renderConfirmationString() {
+    return this.state.isSignSaved
+      ? `${this.state.playerName} choose is sign`
+      : null;
   }
 
   render() {
     return (
-      <div>
-        <Input
-          placeholder={this.props.placeholder}
-          playerName={this.state.playerName}
-          playerNameHandler={this.playerNameHandler}
-          hiding={this.hidingInputComponent}
-          isPlayerNameSaved={this.state.isPlayerNameSaved}
-        />
-        {this.state.isPlayerNameSaved ? (
-          <div>
-            {this.state.playerName}
-            <div className="signePlayer1">
-              choose your sign {this.state.playerName}
-            </div>
-          </div>
-        ) : (
-          <div className="signePlayer1">choose your sign</div>
-        )}
-        {this.state.isSignSaved ? (
-          <div>`${this.state.playerName} just picked his sign`</div>
-        ) : (
-          <div>
-            <Checkbox
-              saveSelectedSign={this.saveSelectedSignPlayer}
-              isSignChecked={this.state.isSignSaved}
-            />
-          </div>
-        )}
-        <Score />
-        {this.state.scorePlayer}
-      </div>
+      <Fragment>
+        {this.renderInput()}
+        {this.renderName()}
+        {this.renderCheckboxes()}
+        {this.renderConfirmationString()}
+        <Score score={this.state.scorePlayer} />
+      </Fragment>
     );
   }
 }
