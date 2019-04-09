@@ -64,13 +64,19 @@ class Player extends Component {
   }
 
   renderCheckboxes() {
-    return this.state.isSignSaved ? this.createCheckboxes() : null;
+    return this.state.isSignSaved && this.state.isPlayerNameSaved
+      ? this.createCheckboxes()
+      : null;
   }
 
   renderConfirmationString() {
     return this.state.isSignSaved
       ? `${this.state.playerName} choose is sign`
       : null;
+  }
+
+  callAssignSign() {
+    return this.state.isSignSaved ? this.props.assign() : null;
   }
 
   render() {
@@ -80,6 +86,7 @@ class Player extends Component {
         {this.renderName()}
         {this.renderCheckboxes()}
         {this.renderConfirmationString()}
+        {/*{this.callAssignSign()}*/}
         <Score score={this.state.scorePlayer} />
       </Fragment>
     );
