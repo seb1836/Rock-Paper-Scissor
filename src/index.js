@@ -24,11 +24,25 @@ class App extends Component {
     }
   };
 
+  saveSelectedSignPlayer = label => {
+    console.log(label);
+    this.setState({
+      playerSign: label,
+      isSignSaved: true
+    });
+  };
+
   render() {
     return (
       <div className="App">
-        <Player placeholder="Player1Name" assign={this.assignSign} />
-        <Player placeholder="Player2Name" assign={this.assignSign} />
+        <Player
+          placeholder="Player1Name"
+          saveSign={this.saveSelectedSignPlayer}
+        />
+        <Player
+          placeholder="Player2Name"
+          saveSign={this.saveSelectedSignPlayer}
+        />
       </div>
     );
   }

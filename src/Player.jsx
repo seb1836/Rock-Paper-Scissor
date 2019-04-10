@@ -5,6 +5,8 @@ import Input from "./Input";
 
 const options = ["rock", "paper", "scissor"];
 
+let isSignSendToParent = false;
+
 class Player extends Component {
   state = {
     playerName: "",
@@ -22,6 +24,7 @@ class Player extends Component {
 
   saveSelectedSignPlayer = label => {
     console.log(label);
+    isSignSendToParent = true;
     this.setState({
       playerSign: label,
       isSignSaved: true
@@ -30,14 +33,6 @@ class Player extends Component {
   onNameChange = e => {
     this.setState({ playerName: e.target.value });
   };
-
-  /*hidingInputComponent = () => {
-    if (!this.state.isPlayerNameSaved) {
-      this.setState({ isPlayerNameSaved: true });
-
-      return <Input placeholder={this.props.placeholder} />;
-    }
-  };*/
 
   createCheckboxes() {
     return options.map(option => (
@@ -64,19 +59,15 @@ class Player extends Component {
   }
 
   renderCheckboxes() {
-    return this.state.isSignSaved && this.state.isPlayerNameSaved
+    return !this.state.isSignSaved && this.state.isPlayerNameSaved
       ? this.createCheckboxes()
       : null;
   }
 
   renderConfirmationString() {
-    return this.state.isSignSaved
+    return isSignSendToParent
       ? `${this.state.playerName} choose is sign`
       : null;
-  }
-
-  callAssignSign() {
-    return this.state.isSignSaved ? this.props.assign() : null;
   }
 
   render() {
