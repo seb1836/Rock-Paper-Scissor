@@ -9,26 +9,25 @@ const winningMatches = [
   ["paper", "rock"]
 ];
 
+const player = [];
+
 class App extends Component {
-  state = {
-    player1Sign: "",
-    player2Sign: ""
+  state = { player1Sign: "", player2Sign: "" };
+
+  player1SetSign = sign => {
+    this.setState(
+      {
+        player1Sign: sign
+      },
+      () => {
+        console.log(this.state.player1Sign);
+      }
+    );
   };
 
-  assignSign = () => {
-    let currentMatch = new Array(2);
-    let count = 0;
-    for (let i = 0; i < count; i++) {
-      currentMatch[i] = [`${this.state.playerSign}`];
-      count++;
-    }
-  };
-
-  saveSelectedSignPlayer = label => {
-    console.log(label);
+  player2SetSign = sign => {
     this.setState({
-      playerSign: label,
-      isSignSaved: true
+      player2Sign: sign
     });
   };
 
@@ -38,10 +37,14 @@ class App extends Component {
         <Player
           placeholder="Player1Name"
           saveSign={this.saveSelectedSignPlayer}
+          number={1}
+          player1SetSign={this.player1SetSign}
         />
         <Player
           placeholder="Player2Name"
           saveSign={this.saveSelectedSignPlayer}
+          number={2}
+          player2SetSign={this.player2SetSign}
         />
       </div>
     );

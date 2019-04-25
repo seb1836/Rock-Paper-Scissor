@@ -11,9 +11,8 @@ class Player extends Component {
   state = {
     playerName: "",
     scorePlayer: "0",
-    playerSign: "",
     isPlayerNameSaved: false,
-    isSignSaved: false
+    playerSign: ""
   };
 
   saveName = () => {
@@ -22,18 +21,27 @@ class Player extends Component {
 
   isNameSaved = () => this.state.isPlayerNameSaved;
 
-  saveSelectedSignPlayer = label => {
-    console.log(label);
-    isSignSendToParent = true;
-    this.setState({
-      playerSign: label,
-      isSignSaved: true
-    });
-  };
   onNameChange = e => {
     this.setState({ playerName: e.target.value });
   };
 
+  assignSign = () => {
+    if (this.props.number === 1) {
+      this.props.player1SetSign(this.state.playerSign);
+    } else if (this.props.number === 2) {
+      this.props.player2SetSign(this.state.playerSign);
+    }
+  };
+  saveSelectedSignPlayer = label => {
+    console.log(label, "f");
+    this.setState({
+      playerSign: label,
+      isSignSaved: true
+    });
+    {
+      this.assignSign;
+    }
+  };
   createCheckboxes() {
     return options.map(option => (
       <Checkbox
