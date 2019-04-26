@@ -9,27 +9,37 @@ const winningMatches = [
   ["paper", "rock"]
 ];
 
-const player = [];
+let count = 0;
+
+const playerSign = [];
 
 class App extends Component {
   state = { player1Sign: "", player2Sign: "" };
 
+  cbPlayer1Sign = () => {
+    console.log(this.state.player1Sign, "fdff");
+  };
   player1SetSign = sign => {
     this.setState(
       {
         player1Sign: sign
       },
-      () => {
-        console.log(this.state.player1Sign);
-      }
+
+      this.cbPlayer1Sign
     );
+    count++;
   };
 
   player2SetSign = sign => {
     this.setState({
       player2Sign: sign
     });
+    count++;
   };
+
+  renderButtonStartMatch() {
+    return count === 2 ? <button>startMatch</button> : null;
+  }
 
   render() {
     return (
@@ -46,6 +56,7 @@ class App extends Component {
           number={2}
           player2SetSign={this.player2SetSign}
         />
+        {this.renderButtonStartMatch()}
       </div>
     );
   }

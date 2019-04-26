@@ -5,14 +5,13 @@ import Input from "./Input";
 
 const options = ["rock", "paper", "scissor"];
 
-let isSignSendToParent = false;
-
 class Player extends Component {
   state = {
     playerName: "",
     scorePlayer: "0",
     isPlayerNameSaved: false,
-    playerSign: ""
+    playerSign: "",
+    isSignSaved: false
   };
 
   saveName = () => {
@@ -26,21 +25,24 @@ class Player extends Component {
   };
 
   assignSign = () => {
+    console.log("into assign");
     if (this.props.number === 1) {
+      console.log("into assign p 1", this.state.playerSign);
       this.props.player1SetSign(this.state.playerSign);
     } else if (this.props.number === 2) {
+      console.log("into assign p2");
       this.props.player2SetSign(this.state.playerSign);
     }
   };
   saveSelectedSignPlayer = label => {
     console.log(label, "f");
-    this.setState({
-      playerSign: label,
-      isSignSaved: true
-    });
-    {
-      this.assignSign;
-    }
+    this.setState(
+      {
+        playerSign: label,
+        isSignSaved: true
+      },
+      this.assignSign
+    );
   };
   createCheckboxes() {
     return options.map(option => (
@@ -73,7 +75,7 @@ class Player extends Component {
   }
 
   renderConfirmationString() {
-    return isSignSendToParent
+    return this.state.isSignSaved
       ? `${this.state.playerName} choose is sign`
       : null;
   }
@@ -86,6 +88,7 @@ class Player extends Component {
         {this.renderCheckboxes()}
         {this.renderConfirmationString()}
         {/*{this.callAssignSign()}*/}
+
         <Score score={this.state.scorePlayer} />
       </Fragment>
     );
