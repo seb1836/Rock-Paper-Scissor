@@ -20,7 +20,25 @@ class App extends Component {
     isplayer1winner: false,
     isplayer2winner: false
   };
-
+  switchRenderBetweenButtonAndWinner() {
+    if (
+      !this.state.isplayer1winner &&
+      !this.state.isplayer2winner &&
+      count === 2
+    ) {
+      console.log("firstLayer Button");
+      return this.renderButtonStartMatch();
+    } else if (
+      (this.state.isplayer1winner || this.state.isplayer2winner) &&
+      count === 2
+    ) {
+      console.log("firstLayer Display");
+      return this.displayWinner();
+    } else if (this.state.player1Sign === "draw" && count === 2) {
+      console.log("into Draw");
+      return "Draw!";
+    }
+  }
   cbPlayer1Sign = () => {
     console.log(this.state.player1Sign, "fdff");
   };
@@ -43,20 +61,32 @@ class App extends Component {
   };
 
   checkWinner(player1Sign, player2Sign) {
-    winningMatches.map(function(winningSign) {
+    console.log("checkwinner");
+    winningMatches.forEach(row => {
       if (
-        (player1Sign === winningSign[0] || player2Sign === winningSign[0]) &&
-        (player1Sign === winningSign[1] || player2Sign === winningSign[1])
+        (player1Sign === row[0] || player2Sign === row[0]) &&
+        (player1Sign === row[1] || player2Sign === row[1])
       ) {
-        return player1Sign === winningSign[0]
-          ? this.setState({ isplayer1winner: true })
-          : this.setState({ isplayer2winner: true });
+        console.log(winningMatches[0], "winningMatches");
+        console.log("checkwinner into if");
+        player1Sign === row[0]
+          ? this.setState({ isplayer1winner: true }, () =>
+              /* this.switchRenderBetweenButtonAndWinner()*/
+              console.log(this.state.isplayer1winner, "statep1")
+            )
+          : this.setState({ isplayer2winner: true }, () =>
+              /*this.switchRenderBetweenButtonAndWinner()*/
+              console.log(this.state.isplayer2winner, "statep2")
+            );
+        return this.state.player1Sign === this.state.player2Sign
+          ? this.setState({ isplayer1winner: "draw" })
+          : null;
       }
     });
   }
 
   displayWinner() {
-    return this.state.isplayer1winner
+    return this.state.isplayer1winner && count === 2
       ? "player1 is winner"
       : "player2 is winner";
   }
@@ -65,16 +95,13 @@ class App extends Component {
       !this.state.player1winner &&
       !this.state.player2winner ? (
       <button
-        onClick={this.checkWinner(
-          this.state.player1Sign,
-          this.state.player2Sign
-        )}
+        onClick={() =>
+          this.checkWinner(this.state.player1Sign, this.state.player2Sign)
+        }
       >
         startMatch
       </button>
-    ) : (
-      this.displayWinner()
-    );
+    ) : null;
   }
 
   render() {
@@ -92,7 +119,7 @@ class App extends Component {
           number={2}
           player2SetSign={this.player2SetSign}
         />
-        {this.renderButtonStartMatch()}
+        {this.switchRenderBetweenButtonAndWinner()}
       </div>
     );
   }
