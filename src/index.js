@@ -20,7 +20,15 @@ class App extends Component {
     isplayer1winner: false,
     isplayer2winner: false
   };
-  switchRenderBetweenButtonAndWinner() {
+  switchRenderBetweenButtonAndWinner(myString) {
+    const { isplayer1winner, isplayer2winner } = this.state;
+    console.log("STATES ==========================>");
+    console.log("*********************PLAYTER 1*****************");
+    console.log(isplayer1winner);
+    console.log("*********************PLAYTER 2*****************");
+    console.log(isplayer2winner);
+    console.log("//////////////////////DONE//////////////////////");
+
     if (
       !this.state.isplayer1winner &&
       !this.state.isplayer2winner &&
@@ -35,7 +43,7 @@ class App extends Component {
       console.log("firstLayer Display");
       return this.displayWinner();
     } else if (this.state.player1Sign === "draw" && count === 2) {
-      console.log("into Draw");
+      console.log("into  main func draw");
       return "Draw!";
     }
   }
@@ -67,20 +75,17 @@ class App extends Component {
         (player1Sign === row[0] || player2Sign === row[0]) &&
         (player1Sign === row[1] || player2Sign === row[1])
       ) {
-        console.log(winningMatches[0], "winningMatches");
         console.log("checkwinner into if");
         player1Sign === row[0]
           ? this.setState({ isplayer1winner: true }, () =>
-              /* this.switchRenderBetweenButtonAndWinner()*/
               console.log(this.state.isplayer1winner, "statep1")
             )
           : this.setState({ isplayer2winner: true }, () =>
-              /*this.switchRenderBetweenButtonAndWinner()*/
               console.log(this.state.isplayer2winner, "statep2")
             );
-        return this.state.player1Sign === this.state.player2Sign
-          ? this.setState({ isplayer1winner: "draw" })
-          : null;
+      } else if (this.state.player1Sign === this.state.player2Sign) {
+        console.log("into draw");
+        this.setState({ player1Sign: "draw" });
       }
     });
   }
