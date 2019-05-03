@@ -32,7 +32,8 @@ class App extends Component {
     if (
       !this.state.isplayer1winner &&
       !this.state.isplayer2winner &&
-      count === 2
+      count === 2 &&
+      this.state.player1Sign !== "draw"
     ) {
       console.log("firstLayer Button");
       return this.renderButtonStartMatch();

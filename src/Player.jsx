@@ -65,7 +65,9 @@ class Player extends Component {
     );
   }
   renderName() {
-    return this.isNameSaved() ? this.state.playerName : null;
+    return this.isNameSaved() && !this.state.isSignSaved
+      ? this.state.playerName
+      : null;
   }
 
   renderCheckboxes() {
