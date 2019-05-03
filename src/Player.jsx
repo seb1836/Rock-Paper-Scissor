@@ -82,6 +82,12 @@ class Player extends Component {
       : null;
   }
 
+  /*setScore () {
+  this.props.isplayerwinner ? this.setState((prevState, props) => ({
+    scorePlayer: prevState.scorePlayer + 1
+  })) :null
+}*/
+
   render() {
     return (
       <Fragment>
@@ -90,8 +96,8 @@ class Player extends Component {
         {this.renderCheckboxes()}
         {this.renderConfirmationString()}
         {/*{this.callAssignSign()}*/}
-
-        <Score score={this.state.scorePlayer} />
+        {/* {this.setScore()} */}
+        <Score score={this.props.score} />
       </Fragment>
     );
   }
