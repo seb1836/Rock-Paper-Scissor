@@ -78,7 +78,7 @@ class Player extends Component {
 
   renderConfirmationString() {
     return this.state.isSignSaved
-      ? `${this.state.playerName} choose is sign`
+      ? `${this.state.playerName} choose his sign`
       : null;
   }
 
