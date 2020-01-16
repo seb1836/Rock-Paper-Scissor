@@ -8,7 +8,6 @@ const options = ["rock", "paper", "scissor"];
 class Player extends Component {
   state = {
     playerName: "",
-    scorePlayer: "0",
     isPlayerNameSaved: false,
     playerSign: "",
     isSignSaved: false

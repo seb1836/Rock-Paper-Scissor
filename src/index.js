@@ -18,32 +18,38 @@ class App extends Component {
     isplayer1winner: false,
     isplayer2winner: false,
     scoreplayer1: 0,
-    scoreplayer2: 0
+    scoreplayer2: 0,
+    round: 1
   };
 
   setScore() {
-    if (this.props.isplayerwinner) {
-      this.setState(prevState => ({
-        scorePlayer: prevState.scorePlayer + 1
-      }));
-    }
+    // if (this.props.isplayerwinner) {
+    //   console.log(this.props.isplayerwinner,"playerwinner")
+    //   this.setState(prevState => ({
+    //     scorePlayer: prevState.scorePlayer + 1
+    //   }));
+    // }
   }
+  uppgradeNumberOfRound = () => {
+    this.setState(
+      prevState => ({ round: prevState.round++ }),
+      () => console.log(this.state.round, "tessst")
+    );
+  };
+
   switchRenderBetweenButtonAndWinner(myString) {
     if (
       !this.state.isplayer1winner &&
       !this.state.isplayer2winner &&
-      count === 2 &&
       this.state.player1Sign !== "draw"
     ) {
       return this.renderButtonStartMatch();
-    } else if (
-      (this.state.isplayer1winner || this.state.isplayer2winner) &&
-      count === 2
-    ) {
+    } else if (this.state.isplayer1winner || this.state.isplayer2winner) {
       this.setScore();
+
       return this.displayWinner();
-    } else if (this.state.player1Sign === "draw" && count === 2) {
-      return "Draw!";
+    } else if (this.state.player1Sign === "draw") {
+      return "Draw!/";
     }
   }
 
@@ -87,7 +93,7 @@ class App extends Component {
   }
 
   displayWinner() {
-    return this.state.isplayer1winner && count === 2
+    return this.state.isplayer1winner
       ? "player1 is winner"
       : "player2 is winner";
   }
