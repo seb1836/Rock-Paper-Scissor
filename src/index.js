@@ -9,8 +9,6 @@ const winningMatches = [
   ["paper", "rock"]
 ];
 
-let count = 0;
-
 class App extends Component {
   state = {
     player1Sign: "",
@@ -49,7 +47,7 @@ class App extends Component {
 
       return this.displayWinner();
     } else if (this.state.player1Sign === "draw") {
-      return "Draw!/";
+      return "Draw";
     }
   }
 
@@ -61,14 +59,12 @@ class App extends Component {
 
       this.cbPlayer1Sign
     );
-    count++;
   };
 
   player2SetSign = sign => {
     this.setState({
       player2Sign: sign
     });
-    count++;
   };
 
   checkWinner(player1Sign, player2Sign) {
@@ -98,9 +94,7 @@ class App extends Component {
       : "player2 is winner";
   }
   renderButtonStartMatch() {
-    return count === 2 &&
-      !this.state.player1winner &&
-      !this.state.player2winner ? (
+    return this.state.player1Sign !== "" && this.state.player2Sign !== "" ? (
       <button
         onClick={() =>
           this.checkWinner(this.state.player1Sign, this.state.player2Sign)
