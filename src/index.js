@@ -11,6 +11,22 @@ const winningMatches = [
 
 class App extends Component {
   state = {
+    players: [
+      {
+        id: 1,
+        sign: "",
+        score: 0,
+        isWinner: false,
+        placeholder: "Player 1 Name"
+      },
+      {
+        id: 2,
+        sign: "",
+        score: 0,
+        isWinner: false,
+        placeholder: "Player 2 Name"
+      }
+    ],
     player1Sign: "",
     player2Sign: "",
     isplayer1winner: false,
@@ -50,6 +66,24 @@ class App extends Component {
       return "Draw";
     }
   }
+
+  playerSaveSign = (signSaved, id) => {
+    this.state.players.forEach((player, index) => {
+      if (index === player.id - 1) {
+      }
+    });
+    this.setState(
+      prevState => {
+        const updatedPlayers = [...prevState.players];
+        const updatedPlayer = { ...updatedPlayers[id - 1] };
+        console.log(updatedPlayer);
+        updatedPlayer.sign = signSaved;
+        updatedPlayers[id - 1] = updatedPlayer;
+        return { players: updatedPlayers };
+      },
+      () => console.log(this.state, "into save")
+    );
+  };
 
   player1SetSign = sign => {
     this.setState(
@@ -94,7 +128,8 @@ class App extends Component {
       : "player2 is winner";
   }
   renderButtonStartMatch() {
-    return this.state.player1Sign !== "" && this.state.player2Sign !== "" ? (
+    return this.state.players[0].sign !== "" &&
+      this.state.players[1].sign !== "" ? (
       <button
         onClick={() =>
           this.checkWinner(this.state.player1Sign, this.state.player2Sign)
@@ -105,25 +140,24 @@ class App extends Component {
     ) : null;
   }
 
+  renderPlayer() {
+    return this.state.players.map((player, index) => {
+      return (
+        <Player
+          key={player.id}
+          placeholder={player.placeholder}
+          id={player.id}
+          playerSetSign={this.playerSaveSign}
+          isplayerwinner={player.isWinner}
+          score={player.score}
+        />
+      );
+    });
+  }
   render() {
     return (
       <div className="App">
-        <Player
-          placeholder="Player1Name"
-          saveSign={this.saveSelectedSignPlayer}
-          number={1}
-          player1SetSign={this.player1SetSign}
-          isplayerwinner={this.state.isplayer1winner}
-          score={this.state.scoreplayer1}
-        />
-        <Player
-          placeholder="Player2Name"
-          saveSign={this.saveSelectedSignPlayer}
-          number={2}
-          player2SetSign={this.player2SetSign}
-          isplayerwinner={this.state.isplayer2winner}
-          score={this.state.scoreplayer2}
-        />
+        {this.renderPlayer()}
         {this.switchRenderBetweenButtonAndWinner()}
       </div>
     );

@@ -23,16 +23,16 @@ class Player extends Component {
     this.setState({ playerName: e.target.value });
   };
 
-  assignSign = () => {
-    console.log("into assign");
-    if (this.props.number === 1) {
-      console.log("into assign p 1", this.state.playerSign);
-      this.props.player1SetSign(this.state.playerSign);
-    } else if (this.props.number === 2) {
-      console.log("into assign p2");
-      this.props.player2SetSign(this.state.playerSign);
-    }
-  };
+  // assignSign = () => {
+  //   console.log("into assign");
+  //   if (this.props.number === 1) {
+  //     console.log("into assign p 1", this.state.playerSign);
+  //     this.props.player1SetSign(this.state.playerSign);
+  //   } else if (this.props.number === 2) {
+  //     console.log("into assign p2");
+  //     this.props.player2SetSign(this.state.playerSign);
+  //   }
+  // };
   saveSelectedSignPlayer = label => {
     console.log(label, "f");
     this.setState(
@@ -40,7 +40,7 @@ class Player extends Component {
         playerSign: label,
         isSignSaved: true
       },
-      this.assignSign
+      this.props.playerSetSign(label, this.props.id)
     );
   };
   createCheckboxes() {
