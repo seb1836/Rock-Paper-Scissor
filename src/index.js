@@ -27,12 +27,7 @@ class App extends Component {
         placeholder: "Player 2 Name"
       }
     ],
-    player1Sign: "",
-    player2Sign: "",
-    isplayer1winner: false,
-    isplayer2winner: false,
-    scoreplayer1: 0,
-    scoreplayer2: 0,
+    
     round: 1
   };
 
@@ -52,19 +47,20 @@ class App extends Component {
   };
 
   switchRenderBetweenButtonAndWinner(myString) {
+    const player1 = this.state.players[0]
+    const player2 = this.state.players[1]
     if (
-      !this.state.isplayer1winner &&
-      !this.state.isplayer2winner &&
-      this.state.player1Sign !== "draw"
+      !player1.isWinner &&
+      !player2.isWinner && player1.isWinner !=="draw"
     ) {
       return this.renderButtonStartMatch();
-    } else if (this.state.isplayer1winner || this.state.isplayer2winner) {
-      this.setScore();
+    } else if (player1.sign === player2.sign) {
+      return "Draw";
+    }else if (player1.isWinner || player2.isWinner) {
+      
 
       return this.displayWinner();
-    } else if (this.state.player1Sign === "draw") {
-      return "Draw";
-    }
+    } 
   }
 
   playerSaveSign = (signSaved, id) => {
@@ -108,22 +104,38 @@ class App extends Component {
         (player1Sign === row[1] || player2Sign === row[1])
       ) {
         player1Sign === row[0]
-          ? this.setState({
-              isplayer1winner: true,
-              scoreplayer1: this.state.scoreplayer1 + 1
+          ? this.setState(prevState => {
+              const updatedPlayers = [...prevState.players];
+              const updatedPlayer = { ...updatedPlayers[0] };
+              console.log(updatedPlayer);
+              updatedPlayer.score += 1;
+              updatedPlayer.isWinner = true;
+              updatedPlayers[0] = updatedPlayer;
+              return { players: updatedPlayers };
             })
-          : this.setState({
-              isplayer2winner: true,
-              scoreplayer2: this.state.scoreplayer2 + 1
+          : this.setState(prevState => {
+              const updatedPlayers = [...prevState.players];
+              const updatedPlayer = { ...updatedPlayers[1] };
+              console.log(updatedPlayer);
+              updatedPlayer.score += 1;
+              updatedPlayer.isWinner = true;
+              updatedPlayers[1] = updatedPlayer;
+              return { players: updatedPlayers };
             });
-      } else if (this.state.player1Sign === this.state.player2Sign) {
-        this.setState({ player1Sign: "draw" });
       }
+      this.setState(prevState => {
+        const updatedPlayers = [...prevState.players];
+        const updatedPlayer = { ...updatedPlayers[0] };
+        updatedPlayer.isWinner = "draw";
+        updatedPlayers[0] = updatedPlayer;
+        return { players: updatedPlayers };
+      }, () => console.log("passin", this.state));
+      ;
     });
   }
 
   displayWinner() {
-    return this.state.isplayer1winner
+    return this.state.players[0].isWinner===true
       ? "player1 is winner"
       : "player2 is winner";
   }
@@ -132,7 +144,10 @@ class App extends Component {
       this.state.players[1].sign !== "" ? (
       <button
         onClick={() =>
-          this.checkWinner(this.state.player1Sign, this.state.player2Sign)
+          this.checkWinner(
+            this.state.players[0].sign,
+            this.state.players[1].sign
+          )
         }
       >
         startMatch
