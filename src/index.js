@@ -14,6 +14,7 @@ class App extends Component {
     players: [
       {
         id: 1,
+        name: "",
         sign: "",
         score: 0,
         isWinner: false,
@@ -21,13 +22,14 @@ class App extends Component {
       },
       {
         id: 2,
+        name: "",
         sign: "",
         score: 0,
         isWinner: false,
         placeholder: "Player 2 Name"
       }
     ],
-    
+
     round: 1
   };
 
@@ -39,28 +41,23 @@ class App extends Component {
     //   }));
     // }
   }
-  uppgradeNumberOfRound = () => {
+  setNewRound = () => {
     this.setState(
-      prevState => ({ round: prevState.round++ }),
+      prevState => ({ round: (prevState.round += 1) }),
       () => console.log(this.state.round, "tessst")
     );
   };
 
-  switchRenderBetweenButtonAndWinner(myString) {
-    const player1 = this.state.players[0]
-    const player2 = this.state.players[1]
-    if (
-      !player1.isWinner &&
-      !player2.isWinner && player1.isWinner !=="draw"
-    ) {
+  switchRenderBetweenStartMatchButtonAndWinner(myString) {
+    const player1 = this.state.players[0];
+    const player2 = this.state.players[1];
+    if (!player1.isWinner && !player2.isWinner) {
       return this.renderButtonStartMatch();
     } else if (player1.sign === player2.sign) {
       return "Draw";
-    }else if (player1.isWinner || player2.isWinner) {
-      
-
+    } else if (player1.isWinner || player2.isWinner) {
       return this.displayWinner();
-    } 
+    }
   }
 
   playerSaveSign = (signSaved, id) => {
@@ -122,22 +119,25 @@ class App extends Component {
               updatedPlayers[1] = updatedPlayer;
               return { players: updatedPlayers };
             });
+      } else if (this.state.players[0].sign === this.state.players[1].sign) {
+        this.setState(
+          prevState => {
+            const updatedPlayers = [...prevState.players];
+            const updatedPlayer = { ...updatedPlayers[0] };
+            updatedPlayer.isWinner = "draw";
+            updatedPlayers[0] = updatedPlayer;
+            return { players: updatedPlayers };
+          },
+          () => console.log("passin", this.state)
+        );
       }
-      this.setState(prevState => {
-        const updatedPlayers = [...prevState.players];
-        const updatedPlayer = { ...updatedPlayers[0] };
-        updatedPlayer.isWinner = "draw";
-        updatedPlayers[0] = updatedPlayer;
-        return { players: updatedPlayers };
-      }, () => console.log("passin", this.state));
-      ;
     });
   }
 
   displayWinner() {
-    return this.state.players[0].isWinner===true
-      ? "player1 is winner"
-      : "player2 is winner";
+    return this.state.players[0].isWinner === true
+      ? `player1 is the winner of round ${this.state.round}`
+      : `player2 is the winner of round ${this.state.round}`;
   }
   renderButtonStartMatch() {
     return this.state.players[0].sign !== "" &&
@@ -169,11 +169,18 @@ class App extends Component {
       );
     });
   }
+
+  renderNextRoundButton() {
+    return this.state.players[0].isWinner || this.state.players[1].isWinner ? (
+      <button onClick={() => this.setNewRound()}>begin next round</button>
+    ) : null;
+  }
   render() {
     return (
       <div className="App">
         {this.renderPlayer()}
-        {this.switchRenderBetweenButtonAndWinner()}
+        {this.switchRenderBetweenStartMatchButtonAndWinner()}
+        {this.renderNextRoundButton()}
       </div>
     );
   }
