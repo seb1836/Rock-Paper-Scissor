@@ -15,17 +15,19 @@ class App extends Component {
       {
         id: 1,
         name: "",
-        sign: "",
+        sign: false,
         score: 0,
         isWinner: false,
+        isPlayerNameSaved: false,
         placeholder: "Player 1 Name"
       },
       {
         id: 2,
         name: "",
-        sign: "",
+        sign: false,
         score: 0,
         isWinner: false,
+        isPlayerNameSaved: false,
         placeholder: "Player 2 Name"
       }
     ],
@@ -33,18 +35,29 @@ class App extends Component {
     round: 1
   };
 
-  setScore() {
-    // if (this.props.isplayerwinner) {
-    //   console.log(this.props.isplayerwinner,"playerwinner")
-    //   this.setState(prevState => ({
-    //     scorePlayer: prevState.scorePlayer + 1
-    //   }));
-    // }
-  }
+  saveName = id => {
+    this.setState(prevState => {
+      const updatedPlayers = [...prevState.players];
+      const updatedPlayer = { ...updatedPlayers[id - 1] };
+      console.log(updatedPlayer);
+      updatedPlayer.isPlayerNameSaved = true;
+      updatedPlayers[id - 1] = updatedPlayer;
+      return { players: updatedPlayers };
+    });
+  };
   setNewRound = () => {
     this.setState(
-      prevState => ({ round: (prevState.round += 1) }),
-      () => console.log(this.state.round, "tessst")
+      prevState => ({
+        players: prevState.players.map(player => {
+          player.name = "";
+          player.sign = false;
+          player.isWinner = false;
+          player.placeholder = `Player${player.id} Name`;
+          return player;
+        }),
+        round: (prevState.round += 1)
+      }),
+      () => console.log(this.state, "new round")
     );
   };
 
@@ -61,10 +74,6 @@ class App extends Component {
   }
 
   playerSaveSign = (signSaved, id) => {
-    this.state.players.forEach((player, index) => {
-      if (index === player.id - 1) {
-      }
-    });
     this.setState(
       prevState => {
         const updatedPlayers = [...prevState.players];
@@ -140,8 +149,7 @@ class App extends Component {
       : `player2 is the winner of round ${this.state.round}`;
   }
   renderButtonStartMatch() {
-    return this.state.players[0].sign !== "" &&
-      this.state.players[1].sign !== "" ? (
+    return this.state.players[0].sign && this.state.players[1].sign ? (
       <button
         onClick={() =>
           this.checkWinner(
@@ -154,7 +162,26 @@ class App extends Component {
       </button>
     ) : null;
   }
-
+  onNameChange = (e, id) => {
+    console.log(id, "my id");
+    if (id === 1) {
+      this.setState(prevState => {
+        const updatedPlayers = [...prevState.players];
+        const updatedPlayer = { ...updatedPlayers[0] };
+        updatedPlayer.name = e.target.value;
+        updatedPlayers[0] = updatedPlayer;
+        return { players: updatedPlayers };
+      });
+    } else if (id === 2) {
+      this.setState(prevState => {
+        const updatedPlayers = [...prevState.players];
+        const updatedPlayer = { ...updatedPlayers[1] };
+        updatedPlayer.name = e.target.value;
+        updatedPlayers[1] = updatedPlayer;
+        return { players: updatedPlayers };
+      });
+    }
+  };
   renderPlayer() {
     return this.state.players.map((player, index) => {
       return (
@@ -162,9 +189,14 @@ class App extends Component {
           key={player.id}
           placeholder={player.placeholder}
           id={player.id}
+          playerName={player.name}
           playerSetSign={this.playerSaveSign}
+          playerSign={player.sign}
           isplayerwinner={player.isWinner}
           score={player.score}
+          isPlayerNameSaved={player.isPlayerNameSaved}
+          saveName={this.saveName}
+          onNameChange={this.onNameChange}
         />
       );
     });

@@ -17,8 +17,6 @@ class Player extends Component {
     this.setState({ isPlayerNameSaved: true });
   };
 
-  isNameSaved = () => this.state.isPlayerNameSaved;
-
   onNameChange = e => {
     this.setState({ playerName: e.target.value });
   };
@@ -53,19 +51,21 @@ class Player extends Component {
     ));
   }
   renderInput() {
-    return this.isNameSaved() ? null : (
+    console.log(this.props);
+    return this.props.isPlayerNameSaved ? null : (
       <Input
         placeholder={this.props.placeholder}
-        onClick={this.saveName}
-        onChange={this.onNameChange}
-        value={this.state.playerName}
+        onClick={this.props.saveName}
+        onChange={this.props.onNameChange}
+        value={this.props.playerName}
         buttonContent="Save"
+        id={this.props.id}
       />
     );
   }
   renderName() {
-    return this.isNameSaved() && !this.state.isSignSaved
-      ? this.state.playerName
+    return this.state.isPlayerNameSaved && !this.state.isSignSaved
+      ? this.props.playerName
       : null;
   }
 
@@ -76,8 +76,8 @@ class Player extends Component {
   }
 
   renderConfirmationString() {
-    return this.state.isSignSaved
-      ? `${this.state.playerName} choose his sign`
+    return this.props.playerSign
+      ? `${this.props.playerName} choose his sign`
       : null;
   }
 
