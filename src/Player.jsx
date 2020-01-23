@@ -64,13 +64,13 @@ class Player extends Component {
     );
   }
   renderName() {
-    return this.state.isPlayerNameSaved && !this.state.isSignSaved
+    return this.props.isPlayerNameSaved && !this.props.isSignSaved
       ? this.props.playerName
       : null;
   }
 
   renderCheckboxes() {
-    return !this.state.isSignSaved && this.state.isPlayerNameSaved
+    return !this.props.isSignSaved && this.props.isPlayerNameSaved
       ? this.createCheckboxes()
       : null;
   }

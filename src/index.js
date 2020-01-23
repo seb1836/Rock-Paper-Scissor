@@ -19,6 +19,7 @@ class App extends Component {
         score: 0,
         isWinner: false,
         isPlayerNameSaved: false,
+        isSignSaved:false,
         placeholder: "Player 1 Name"
       },
       {
@@ -28,6 +29,7 @@ class App extends Component {
         score: 0,
         isWinner: false,
         isPlayerNameSaved: false,
+        isSignSaved:false,
         placeholder: "Player 2 Name"
       }
     ],
@@ -49,10 +51,12 @@ class App extends Component {
     this.setState(
       prevState => ({
         players: prevState.players.map(player => {
-          player.name = "";
+          
           player.sign = false;
           player.isWinner = false;
           player.placeholder = `Player${player.id} Name`;
+          
+          player.isSignSaved=false
           return player;
         }),
         round: (prevState.round += 1)
@@ -67,7 +71,7 @@ class App extends Component {
     if (!player1.isWinner && !player2.isWinner) {
       return this.renderButtonStartMatch();
     } else if (player1.sign === player2.sign) {
-      return "Draw";
+      return `the round ${this.state.round} is a draw`;
     } else if (player1.isWinner || player2.isWinner) {
       return this.displayWinner();
     }
@@ -80,6 +84,7 @@ class App extends Component {
         const updatedPlayer = { ...updatedPlayers[id - 1] };
         console.log(updatedPlayer);
         updatedPlayer.sign = signSaved;
+        updatedPlayer.isSignSaved=true
         updatedPlayers[id - 1] = updatedPlayer;
         return { players: updatedPlayers };
       },
@@ -158,7 +163,7 @@ class App extends Component {
           )
         }
       >
-        startMatch
+        show result
       </button>
     ) : null;
   }
@@ -194,6 +199,7 @@ class App extends Component {
           playerSign={player.sign}
           isplayerwinner={player.isWinner}
           score={player.score}
+          isSignSaved={player.isSignSaved}
           isPlayerNameSaved={player.isPlayerNameSaved}
           saveName={this.saveName}
           onNameChange={this.onNameChange}
@@ -203,9 +209,22 @@ class App extends Component {
   }
 
   renderNextRoundButton() {
-    return this.state.players[0].isWinner || this.state.players[1].isWinner ? (
+    return this.state.players.some(player =>{return player.isWinner}) && this.state.round !==3 ? (
       <button onClick={() => this.setNewRound()}>begin next round</button>
     ) : null;
+  }
+displayWinnerOfTheMatch()  {
+if(this.state.players[0].score>this.state.players[1].score){
+  return (<div><p>{this.state.players[0].name} win the match</p><button>start new match</button></div>
+  )}else if (this.state.players[1].score>this.state.players[0].score){
+  return (<div><p>{this.state.players[1].name} win the match</p><button>start new match</button></div>
+  )}
+  return (<div><p>there is no winner for this match</p><button>start new match</button></div>
+  )
+}
+
+  showMatchResults (){
+    return this.state.round===3 && this.state.players[0].isWinner? this.displayWinnerOfTheMatch():null
   }
   render() {
     return (
@@ -213,6 +232,7 @@ class App extends Component {
         {this.renderPlayer()}
         {this.switchRenderBetweenStartMatchButtonAndWinner()}
         {this.renderNextRoundButton()}
+        {this.showMatchResults()}
       </div>
     );
   }
