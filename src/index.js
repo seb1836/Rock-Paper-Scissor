@@ -47,6 +47,22 @@ class App extends Component {
       return { players: updatedPlayers };
     });
   };
+  setNewMatch = () => {
+    this.setState(
+    prevState => ({
+      players: prevState.players.map(player => {
+        player.name=""
+        player.sign = false;
+        player.isWinner = false;
+        player.placeholder = `Player${player.id} Name`;
+        player.score=0;
+        player.isPlayerNameSaved=false
+        player.isSignSaved = false
+        return player;
+      }),
+      round: 1
+    }))
+  }
   setNewRound = () => {
     this.setState(
       prevState => ({
@@ -219,7 +235,7 @@ if(this.state.players[0].score>this.state.players[1].score){
   )}else if (this.state.players[1].score>this.state.players[0].score){
   return (<div><p>{this.state.players[1].name} win the match</p><button>start new match</button></div>
   )}
-  return (<div><p>there is no winner for this match</p><button>start new match</button></div>
+  return (<div><p>there is no winner for this match</p><button onClick={this.setNewMatch}>start new match</button></div>
   )
 }
 
