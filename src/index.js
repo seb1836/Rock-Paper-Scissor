@@ -108,21 +108,7 @@ class App extends Component {
     );
   };
 
-  player1SetSign = sign => {
-    this.setState(
-      {
-        player1Sign: sign
-      },
-
-      this.cbPlayer1Sign
-    );
-  };
-
-  player2SetSign = sign => {
-    this.setState({
-      player2Sign: sign
-    });
-  };
+  
 
   checkWinner(player1Sign, player2Sign) {
     winningMatches.forEach(row => {
