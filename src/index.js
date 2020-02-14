@@ -19,7 +19,7 @@ class App extends Component {
         score: 0,
         isWinner: false,
         isPlayerNameSaved: false,
-        isSignSaved:false,
+        isSignSaved: false,
         placeholder: "Player 1 Name"
       },
       {
@@ -29,7 +29,7 @@ class App extends Component {
         score: 0,
         isWinner: false,
         isPlayerNameSaved: false,
-        isSignSaved:false,
+        isSignSaved: false,
         placeholder: "Player 2 Name"
       }
     ],
@@ -48,31 +48,29 @@ class App extends Component {
     });
   };
   setNewMatch = () => {
-    this.setState(
-    prevState => ({
+    this.setState(prevState => ({
       players: prevState.players.map(player => {
-        player.name=""
+        player.name = "";
         player.sign = false;
         player.isWinner = false;
         player.placeholder = `Player${player.id} Name`;
-        player.score=0;
-        player.isPlayerNameSaved=false
-        player.isSignSaved = false
+        player.score = 0;
+        player.isPlayerNameSaved = false;
+        player.isSignSaved = false;
         return player;
       }),
       round: 1
-    }))
-  }
+    }));
+  };
   setNewRound = () => {
     this.setState(
       prevState => ({
         players: prevState.players.map(player => {
-          
           player.sign = false;
           player.isWinner = false;
           player.placeholder = `Player${player.id} Name`;
-          
-          player.isSignSaved=false
+
+          player.isSignSaved = false;
           return player;
         }),
         round: (prevState.round += 1)
@@ -100,15 +98,13 @@ class App extends Component {
         const updatedPlayer = { ...updatedPlayers[id - 1] };
         console.log(updatedPlayer);
         updatedPlayer.sign = signSaved;
-        updatedPlayer.isSignSaved=true
+        updatedPlayer.isSignSaved = true;
         updatedPlayers[id - 1] = updatedPlayer;
         return { players: updatedPlayers };
       },
       () => console.log(this.state, "into save")
     );
   };
-
-  
 
   checkWinner(player1Sign, player2Sign) {
     winningMatches.forEach(row => {
@@ -170,7 +166,6 @@ class App extends Component {
     ) : null;
   }
   onNameChange = (e, id) => {
-    console.log(id, "my id");
     if (id === 1) {
       this.setState(prevState => {
         const updatedPlayers = [...prevState.players];
@@ -190,7 +185,7 @@ class App extends Component {
     }
   };
   renderPlayer() {
-    return this.state.players.map((player, index) => {
+    return this.state.players.map(player => {
       return (
         <Player
           key={player.id}
@@ -211,22 +206,40 @@ class App extends Component {
   }
 
   renderNextRoundButton() {
-    return this.state.players.some(player =>{return player.isWinner}) && this.state.round !==3 ? (
+    return this.state.players.some(player => {
+      return player.isWinner;
+    }) && this.state.round !== 3 ? (
       <button onClick={() => this.setNewRound()}>begin next round</button>
     ) : null;
   }
-displayWinnerOfTheMatch()  {
-if(this.state.players[0].score>this.state.players[1].score){
-  return (<div><p>{this.state.players[0].name} win the match</p><button>start new match</button></div>
-  )}else if (this.state.players[1].score>this.state.players[0].score){
-  return (<div><p>{this.state.players[1].name} win the match</p><button>start new match</button></div>
-  )}
-  return (<div><p>there is no winner for this match</p><button onClick={this.setNewMatch}>start new match</button></div>
-  )
-}
+  displayWinnerOfTheMatch() {
+    if (this.state.players[0].score > this.state.players[1].score) {
+      return (
+        <div>
+          <p>{this.state.players[0].name} win the match</p>
+          <button>start new match</button>
+        </div>
+      );
+    } else if (this.state.players[1].score > this.state.players[0].score) {
+      return (
+        <div>
+          <p>{this.state.players[1].name} win the match</p>
+          <button>start new match</button>
+        </div>
+      );
+    }
+    return (
+      <div>
+        <p>there is no winner for this match</p>
+        <button onClick={this.setNewMatch}>start new match</button>
+      </div>
+    );
+  }
 
-  showMatchResults (){
-    return this.state.round===3 && this.state.players[0].isWinner? this.displayWinnerOfTheMatch():null
+  showMatchResults() {
+    return this.state.round === 3 && this.state.players[0].isWinner
+      ? this.displayWinnerOfTheMatch()
+      : null;
   }
   render() {
     return (
