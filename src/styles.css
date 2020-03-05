@@ -3,8 +3,8 @@
   text-align: center;
 }
 
-html {
-  background-color: #4286f4;
+body {
+  background-image: url("./board-game-challenge.jpg");
 }
 button {
   background: red;
